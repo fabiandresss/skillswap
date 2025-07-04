@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
+// Método para que el usuario se registre
 router.post('/register', async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -29,6 +30,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
+// Método para que el usuario registrado inicie sesión
 router.post('/login', async (req, res) => {
 
     try {
@@ -62,6 +64,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// Método para obtener a un usuario según su id
 router.get ('/profile/:id', async (req, res) => {
     try {
         const userId = req.params.id;
@@ -77,6 +80,37 @@ router.get ('/profile/:id', async (req, res) => {
         });
     } catch (error) {
         console.error('Error al cargar perfil: ', error);
+        res.status(500).json({ message: 'Error del servidor: ', error: error.message });
+    }
+});
+
+// Método para que el usuario pueda actualizar y agregar sus habilidades que sabe y las que quiere
+router.put('/profile/:id/skills', async (req, res) => {
+    try {
+        const { skillsHave, skillsWant } = req.body;
+        const userId = req.params.id;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado'});
+        }
+
+        if (skillsHave) user.skillsHave = skillsHave;
+        if (skillsWant) user.skillsWant = skillsWant;
+
+        await user.save();
+
+        res.status(200).json({
+            message: '¡Habilidades actualizadas correctamente!',
+            user: {
+                id: user._id,
+                name: user.name,
+                skillsHave: user.skillsHave,
+                skillsWant: user.skillsWant
+            }
+        });
+    } catch (error) {
+        console.error('Error al actualizar habilidades: ', error);
         res.status(500).json({ message: 'Error del servidor: ', error: error.message });
     }
 });

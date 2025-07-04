@@ -17,6 +17,14 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  skillsHave: {
+    type: [String],
+    default: []
+  },
+  skillsWant: {
+    type: [String],
+    default: []
   }
 });
 
