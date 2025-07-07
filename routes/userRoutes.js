@@ -115,4 +115,36 @@ router.put('/profile/:id/skills', async (req, res) => {
     }
 });
 
+router.put('/profile/:id/info', async (req, res) => {
+    try {
+        const { bio, interests, whyLearn, whatTeach } = req.body;
+        const userId = req.params.id;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado'});
+        }
+
+        if (bio!== undefined) user.bio = bio;
+        if (interests !== undefined) user.interests = interests;
+        if (whyLearn !== undefined) user.whyLearn = whyLearn;
+        if (whatTeach !== undefined) user.whatTeach = whatTeach;
+
+        await user.save();
+
+        res.status(200).json({
+            message: '¡Perfil actualizada correctamente!',
+            user: {
+                id: user._id,
+                bio: user.bio,
+                interests: user.interests,
+                whyLearn: user.whyLearn,
+                whatTeach: user.whatTeach
+                }
+        });
+    } catch (error) {
+        console.error('Error al actualizar perfil: ', error);
+        res.status(500).json({ message: 'Error del servidor: ', error: error.message });
+    }
+});
 module.exports = router;

@@ -25,6 +25,25 @@ const userSchema = new mongoose.Schema({
   skillsWant: {
     type: [String],
     default: []
+  },
+  bio: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  interests: {
+    type: [String],
+    default: []
+  },
+  whyLearn: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  whatTeach: {
+    type: String,
+    trim: true,
+    default: ''
   }
 });
 
