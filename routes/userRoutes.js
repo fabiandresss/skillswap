@@ -3,6 +3,16 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
+const BADGE_OPTIONS = [
+  "🧠 Aprendiz de por vida",
+  "🎓 Mentor",
+  "🚀 Proactivo",
+  "🧘 Colaborador",
+  "💡 Creativo",
+  "🤝 Intercambista",
+  "🛠 Manos a la obra"
+];
+
 // Método para que el usuario se registre
 router.post('/register', async (req, res) => {
     try {
@@ -228,6 +238,70 @@ router.get('/match/:id', async (req, res) => {
         });
     } catch (error) {
         console.error('Error al buscar matches: ', error);
+        res.status(500).json({ message: 'Error del servidor: ', error: error.message });
+    }
+});
+
+router.get('/suggest/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        const suggestions = await User.find({
+            _id: { $ne: userId },
+            skillsHave: { $in: user.skillsWant }
+        }).select('-password');
+
+        res.status(200).json({
+            message: 'Usuarios sugeridos encontrados',
+            suggestions
+        });
+    } catch (error) {
+        console.error('Error al buscar sugerencias: ', error);
+        res.status(500).json({ message: 'Error del servidor: ', error: error.message });
+    }
+});
+
+
+router.get('/badges', (req, res) => {
+  res.status(200).json({
+    message: 'Lista de badges disponibles',
+    badges: BADGE_OPTIONS
+  });
+});
+
+router.put('/profile/:id/badges', async (req, res) => {
+    try {
+        const { badges } = req.body;
+        const userId = req.params.id;
+
+        if (!Array.isArray(badges)) {
+            return res.status(400).json({ message: 'Badges deben ser un arreglo' });
+        }
+
+        const invalidBadges = badges.filter(badge => !BADGE_OPTIONS.includes(badge));
+        if (invalidBadges.length > 0) {
+            return res.status(400).json({ message: 'Badges inválidos' });
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        user.badges = badges;
+        await user.save();
+
+        res.status(200).json({
+            message: 'Badges actualizados correctamente',
+            badges: user.badges
+        });
+    } catch (error) {
+        console.error('Error al asignar badges: ', error);
         res.status(500).json({ message: 'Error del servidor: ', error: error.message });
     }
 });
