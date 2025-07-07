@@ -182,4 +182,28 @@ router.get('/explore/:id', async (req, res) => {
             res.status(500).json({ message: 'Error del servidor: ', error: error.message });
         }
 });
+
+router.get('/search', async (req, res) => {
+    try {
+        const { skills, mode = 'have' } = req.query;
+
+        if (!skills || skills.trim() === '') {
+            return res.status(400).json({ message: 'Debes especificar una habilidad'});
+        }
+
+        const searchField = mode == 'want' ? 'skillsWant' : 'skillsHave';
+
+        const users = await User.find({
+            [searchField]: { $regex: new RegExp(skills, 'i') }
+        }).select('-password');
+
+        res.status(200).json({
+            message: 'Usuarios encontrados',
+            users
+        });
+    } catch (error){
+        console.error('Error al buscar usuarios: ', error);
+        res.status(500).json({ message: 'Error del servidor: ', error: error.message });
+    }
+});
 module.exports = router;
