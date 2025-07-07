@@ -206,4 +206,29 @@ router.get('/search', async (req, res) => {
         res.status(500).json({ message: 'Error del servidor: ', error: error.message });
     }
 });
+
+router.get('/match/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        const matches = await User.find({
+            _id: { $ne: userId },
+            skillsHave: { $in: user.skillsWant },
+            skillsWant: { $in: user.skillsHave }
+        }).select('-password');
+
+        res.status(200).json({
+            message: 'Usuarios compatibles encontrados',
+            matches
+        });
+    } catch (error) {
+        console.error('Error al buscar matches: ', error);
+        res.status(500).json({ message: 'Error del servidor: ', error: error.message });
+    }
+});
 module.exports = router;
