@@ -8,6 +8,8 @@ const PORT = process.env.PORT || 3000;
 // Middleware base
 app.use(express.json());
 
+app.use(express.static('public'));
+
 // Importar rutas
 const userRoutes = require('./routes/userRoutes');
 app.use('/api/users', userRoutes);
