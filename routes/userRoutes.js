@@ -305,4 +305,26 @@ router.put('/profile/:id/badges', async (req, res) => {
         res.status(500).json({ message: 'Error del servidor: ', error: error.message });
     }
 });
+
+router.get('/public/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        const user = await User.findById(userId).select(
+            'name bio interest skillsHave skillsWant whyLearn whatTeach badges'
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        res.status(200).json({
+            message: 'Usuario encontrado',
+            profile: user
+        });
+    } catch (error) {
+        console.error('Error al cargar el perfil: ', error);
+        res.status(500).json({ message: 'Error del servidor: ', error: error.message });
+    }
+})
 module.exports = router;
