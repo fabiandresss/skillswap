@@ -9,8 +9,16 @@ router.post('/register', async (req, res) => {
         const { name, email, password } = req.body;
 
         // Validación básica para el registro
-        if (!name || !email || !password) {
-            return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+        if (!name || name.trim().length < 2) {
+            return res.status(400).json({ message: 'El nombre es obligatorio y debe tener al menos 2 caracteres'});
+        }
+
+        if (!email || !email.includes('@' || email.length < 5)) {
+            return res.status(400).json({ message: 'El correo electrónico es obligatorio y debe tener un formato válido'});
+        }
+
+        if (!password || password.length < 6) {
+            return res.status(400).json({ message: 'La contraseña es obligatoria y debe tener al menos 6 caracteres'});
         }
 
         // Validación por si ya existe en email dentro de la BD
@@ -90,6 +98,14 @@ router.put('/profile/:id/skills', async (req, res) => {
         const { skillsHave, skillsWant } = req.body;
         const userId = req.params.id;
 
+        if (skillsHave && !Array.isArray(skillsHave)) {
+            return res.status(400).json({ message: 'Las habilidades que tienes deben ser un arreglo' });
+        }
+
+        if (skillsWant && !Array.isArray(skillsWant)) {
+            return res.status(400).json({ message: 'Las habilidades que quieres deben ser un arreglo' });
+        }
+
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado'});
@@ -120,6 +136,9 @@ router.put('/profile/:id/info', async (req, res) => {
         const { bio, interests, whyLearn, whatTeach } = req.body;
         const userId = req.params.id;
 
+        if (bio && bio.length > 300) {
+            return res.status(400).json({ message: 'La bio no puede tener más de 300 caracteres' });
+        }
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado'});
