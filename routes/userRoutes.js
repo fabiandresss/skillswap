@@ -166,4 +166,20 @@ router.put('/profile/:id/info', async (req, res) => {
         res.status(500).json({ message: 'Error del servidor: ', error: error.message });
     }
 });
+
+router.get('/explore/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        const users = await User.find({ _id: {$ne: userId }}).select('-password');
+
+        res.status(200).json({
+            message: 'Usuarios encontrados',
+            users
+        });
+    }  catch (error) {
+            console.error('Error al buscar usuarios: ', error);
+            res.status(500).json({ message: 'Error del servidor: ', error: error.message });
+        }
+});
 module.exports = router;
