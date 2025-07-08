@@ -62,7 +62,7 @@ PORT=3000
 ```
 
 Luego abre tu navegador en:  
-👉 `http://localhost:3000`
+`http://localhost:3000`
 
 ---
 
