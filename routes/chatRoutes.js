@@ -52,7 +52,20 @@ router.get('/conversations/:userId', async (req, res) => {
 
   try {
     const conversations = await Conversation.find({ participants: userId });
-    res.status(200).json({ message: 'Conversaciones encontradas', conversations });
+
+    const enriched = await Promise.all(conversations.map(async conv => {
+      const otherUserId = conv.participants.find(id => id.toString() !== userId);
+      const lastMessage = await Message.findOne({ conversationId: conv._id }).sort({ timestamp: -1 });
+
+      return {
+        conversationId: conv._id,
+        withUserId: otherUserId,
+        lastMessage: lastMessage?.text || "",
+        timestamp: lastMessage?.timestamp || null
+      };
+    }));
+
+    res.status(200).json({ message: 'Conversaciones encontradas', conversations: enriched });
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener conversaciones', error: error.message });
   }

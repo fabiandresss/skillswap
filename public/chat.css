@@ -1,0 +1,35 @@
+.message-container {
+  height: 400px;
+  overflow-y: scroll;
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.message {
+  max-width: 70%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  display: inline-block;
+  position: relative;
+}
+
+.mine {
+  background-color: #d1e7dd;
+  margin-left: auto;
+  text-align: right;
+}
+
+.theirs {
+  background-color: #e2e3e5;
+  margin-right: auto;
+  text-align: left;
+}
+
+.timestamp {
+  display: block;
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-top: 4px;
+}
