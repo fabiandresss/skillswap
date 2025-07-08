@@ -14,6 +14,10 @@ app.use(express.static('public'));
 const userRoutes = require('./routes/userRoutes');
 app.use('/api/users', userRoutes);
 
+const chatRoutes = require('./routes/chatRoutes');
+app.use('/api/chat', chatRoutes);
+
+
 // Ruta de prueba
 app.get('/', (req, res) => {
   res.send('¡Hola SkillSwap!');
