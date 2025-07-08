@@ -1,23 +1,35 @@
 # SkillSwap – Red de Intercambio de Habilidades 🤝🧠
 
-![MVP](https://img.shields.io/badge/Estado-MVP%20en%20desarrollo-blue)
-![License](https://img.shields.io/badge/Licencia-MIT-green)
+![Estado del proyecto](https://img.shields.io/badge/Estado-MVP%20en%20desarrollo-blue)
+![Licencia](https://img.shields.io/badge/Licencia-MIT-green)
+![Hecho con Node.js](https://img.shields.io/badge/backend-Node.js-brightgreen)
+![MongoDB](https://img.shields.io/badge/database-MongoDB-informational)
 
-SkillSwap es una red social educativa donde puedes **enseñar lo que sabes** y **aprender lo que te apasiona**, sin necesidad de pagos ni monedas virtuales. Tú me enseñas algo, yo te enseño algo. Gratis y humano.
+> Una comunidad donde puedes enseñar lo que sabes y aprender lo que te apasiona, sin pagar. Solo conectándote con personas como tú.
+
+---
+
+## 🌟 ¿Qué es SkillSwap?
+
+**SkillSwap** es una red social educativa donde las personas pueden intercambiar habilidades de forma gratuita. No hay monedas virtuales, puntos ni pagos: solo conexión directa y recíproca.
 
 📌 Ejemplo: *“Sé inglés, quiero aprender Photoshop”*  
 👉 El sistema te conecta automáticamente con alguien compatible.
 
 ---
 
-## 🚀 Características principales
+## 🧩 Características principales
 
-- Registro e inicio de sesión
-- Perfiles con bio, intereses y habilidades
-- Sugerencias de usuarios compatibles (Match)
-- Página de exploración
-- Chat interno seguro
-- Sistema para reportar y bloquear
+- Registro e inicio de sesión de usuarios
+- Perfiles con:
+  - Nombre, bio, intereses
+  - Qué sabes hacer
+  - Qué quieres aprender
+- Página de exploración con filtros
+- Sugerencias automáticas por afinidad (match)
+- Chat interno privado y seguro
+- Sistema de reportes y bloqueo de usuarios
+- Notificaciones visuales de nuevos mensajes
 
 ---
 
@@ -33,11 +45,24 @@ SkillSwap es una red social educativa donde puedes **enseñar lo que sabes** y *
 
 ---
 
-## 📦 Instalación rápida
+## 🚀 Instalación local
 
 ```bash
 git clone https://github.com/tuusuario/skillswap.git
 cd skillswap
 npm install
 npm run dev
- 
+```
+
+Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
+
+```ini
+MONGO_URI=mongodb+srv://<usuario>:<contraseña>@<cluster>.mongodb.net/skillswap
+PORT=3000
+```
+
+Luego abre tu navegador en:  
+👉 `http://localhost:3000`
+
+---
+
