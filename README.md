@@ -5,6 +5,9 @@
 
 SkillSwap es una red social educativa donde puedes **enseñar lo que sabes** y **aprender lo que te apasiona**, sin necesidad de pagos ni monedas virtuales. Tú me enseñas algo, yo te enseño algo. Gratis y humano.
 
+📌 Ejemplo: *“Sé inglés, quiero aprender Photoshop”*  
+👉 El sistema te conecta automáticamente con alguien compatible.
+
 ---
 
 ## 🚀 Características principales
@@ -15,6 +18,18 @@ SkillSwap es una red social educativa donde puedes **enseñar lo que sabes** y *
 - Página de exploración
 - Chat interno seguro
 - Sistema para reportar y bloquear
+
+---
+
+## 🛠️ Tecnologías usadas
+
+| Parte         | Tecnología               |
+|--------------|--------------------------|
+| Frontend     | HTML, CSS, Bootstrap     |
+| Backend      | Node.js, Express         |
+| Base de datos| MongoDB Atlas            |
+| Autenticación| Email + password (básico)|
+| Renderizado  | HTML/API                 |
 
 ---
 
