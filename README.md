@@ -40,4 +40,8 @@ git clone https://github.com/tuusuario/skillswap.git
 cd skillswap
 npm install
 npm run dev
+
+Crea un archivo .env en la raíz del proyecto con el siguiente contenido:
+MONGO_URI=mongodb+srv://<usuario>:<contraseña>@<cluster>.mongodb.net/skillswap
+PORT=3000
  
